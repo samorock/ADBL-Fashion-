@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ADBL — Haute Couture</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blush: #f2e0d8;
+    --rose: #c9967c;
+    --dusty: #e8cfc4;
+    --cream: #faf6f2;
+    --deep: #2a1f1a;
+    --warm: #7a4f3a;
+    --mist: #ede5e0;
+    --gold: #b8976a;
+  }
+body {
+    background: var(--rose);
+}
+.collections-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;   /* 2 columns */
+  gap: 24px;
+  background-color: var(--rose);
+}
+
+.card-visual {
+  width: 100%;
+  aspect-ratio: 3 / 4;           /* Balanced height */
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #f8f0eb;
+}
+
+.card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s ease;
+}
+
+.collection-card:hover .card-image {
+  transform: scale(1.07);
+}
+
+/* Mobile - Stack vertically */
+@media (max-width: 768px) {
+  .collections-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+  p {
+      font-family: Arial, helvetica ,Sans-Serif;
+      text-align: center;
+      color: var(--cream);
+  }
+</style>
+<body>
+<section id="collections">
+  <div class="section-header reveal">
+    <div>
+      <div class="section-label">SS 2026 — Featured</div>
+      <h2 class="section-title">Our <em>Collections</em></h2>
+    </div>
+    <a href="index.html" class="section-link">Back to Page→</a>
+  </div>
+
+  <div class="collections-grid">
+    <div class="collection-card card-1 reveal">
+      <div class="card-visual">
+          <img src="https://i.postimg.cc/Px28gczj/IMG-20260514-WA0039.jpg" alt="Signature Collection" class="card-image">
+        
+      <div class="card-info">
+        <div>
+          <div class="card-name">Wedding Gown</div>
+          <div class="card-season">Evening Wear</div>
+        </div>
+        <a href="#" class="card-arrow">→</a>
+      </div>
+    </div>
+  <p>Wedding Gown</p>
+    <div class="collection-card card-2 reveal reveal-delay-1">
+      <div class="card-visual">
+          <img src="https://i.postimg.cc/PxVZ99TP/IMG-20260514-WA0037.jpg" alt="Signature Collection" class="card-image">
+      <div class="card-info">
+        <div>
+          <div class="card-name">Coperate wears</div>
+          <div class="card-season">Bridal</div>
+        </div>
+        <a href="#" class="card-arrow">→</a>
+      </div>
+    </div>
+<p>Cooperate wear</p>
+    <div class="collection-card card-3 reveal reveal-delay-2">
+      <div class="card-visual">
+          <img src="https://i.postimg.cc/tT6ZvTv7/IMG-20260514-WA0031.jpg" alt="Signature Collection" class="card-image">
+      <div class="card-info">
+        <div>
+          <div class="card-name">Kids wears</div>
+          <div class="card-season">Resort</div>
+        </div>
+        <a href="#" class="card-arrow">→</a>
+      </div>
+    </div>
+<p>Kids wear</p>
+    <div class="collection-card card-4 reveal reveal-delay-3">
+      <div class="card-visual">
+          <img src="https://i.postimg.cc/9f6z92XH/IMG-20260514-WA0035.jpg" alt="Signature Collection" class="card-image">
+      <div class="card-info">
+        <div>
+          <div class="card-name">Pétale d'Or</div>
+          <div class="card-season">Cocktail</div>
+        </div>
+        <a href="#" class="card-arrow">→</a>
+      </div>
+    </div>
+    <p>Aso Oke bridal</p>
+    <div class="collection-card card-5 reveal reveal-delay-4">
+      <div class="card-visual">
+          <img src="https://i.postimg.cc/sgh04F5n/IMG-20260514-WA0028.jpg" alt="Signature Collection" class="card-image">
+      <div class="card-info">
+        <div>
+          <div class="card-name">Pétale d'Or</div>
+          <div class="card-season">Cocktail</div>
+        </div>
+        <a href="#" class="card-arrow">→</a>
+      </div>
+    </div>
+      <div class="collection-card card-6 reveal reveal-delay-5">
+      <div class="card-visual">
+          <img src="https://i.postimg.cc/QCCfBvXp/IMG-20260514-WA0024.jpg" alt="Signature Collection" class="card-image">
+      <div class="card-info">
+        <div>
+          <div class="card-name">Pétale d'Or</div>
+          <div class="card-season">Cocktail</div>
+        </div>
+        <a href="#" class="card-arrow">→</a>
+      </div>
+    </div>
+      <div class="collection-card card-5 reveal reveal-delay-4">
+      <div class="card-visual">
+          <img src="https://i.postimg.cc/63mdPqXw/IMG-20260514-WA0041.jpg" alt="Signature Collection" class="card-image">
+      <div class="card-info">
+        <div>
+          <div class="card-name">Pétale d'Or</div>
+          <div class="card-season">Cocktail</div>
+        </div>
+        <a href="#" class="card-arrow">→</a>
+      </div>
+    </div>
+    <p>Ankara wear</p> 
+  </div>
+</section>
+</body>

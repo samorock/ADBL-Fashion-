@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ADBL — Haute Couture</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box;
+      font-weight: 700;
+  }
+  
+
+  :root {
+    --blush: #f2e0d8;
+    --rose: #c9967c;
+    --dusty: #e8cfc4;
+    --cream: #faf6f2;
+    --deep: #2a1f1a;
+    --warm: #7a4f3a;
+    --mist: #ede5e0;
+    --gold: #b8976a;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--deep);
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom Cursor */
+  .cursor {
+    width: 8px; height: 8px;
+    background: var(--rose);
+    border-radius: 50%;
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.15s ease;
+  }
+  .cursor-ring {
+    width: 36px; height: 36px;
+    border: 1px solid var(--rose);
+    border-radius: 50%;
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9998;
+    transition: transform 0.35s cubic-bezier(0.23,1,0.32,1), width 0.3s, height 0.3s, border-color 0.3s;
+    opacity: 0.7;
+  }
+  body:hover .cursor { opacity: 1; }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 28px 60px;
+    mix-blend-mode: multiply;
+  }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    font-weight: 300;
+    letter-spacing: 0.4em;
+    color: var(--deep);
+    text-decoration: none;
+  }
+  .nav-links {
+    display: flex;
+    gap: 44px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--deep);
+    text-decoration: none;
+    opacity: 0.7;
+    transition: opacity 0.3s;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -3px; left: 0;
+    width: 0; height: 1px;
+    background: var(--rose);
+    transition: width 0.4s ease;
+  }
+  .nav-links a:hover { opacity: 1; }
+  .nav-links a:hover::after { width: 100%; }
+
+  /* HERO */
+  #hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-left {
+    background: var(--blush);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 120px 60px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-left::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(201,150,124,0.25) 0%, transparent 70%);
+  }
+
+  .hero-eyebrow {
+    font-size: 0.65rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--rose);
+    margin-bottom: 28px;
+    opacity: 0;
+    animation: fadeUp 1s 0.3s forwards;
+  }
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(4rem, 7vw, 6.5rem);
+    font-weight: 300;
+    line-height: 1.02;
+    color: var(--deep);
+    opacity: 0;
+    animation: fadeUp 1s 0.5s forwards;
+  }
+  .hero-title em {
+    font-style: italic;
+    color: var(--rose);
+  }
+  .hero-sub {
+    margin-top: 32px;
+    font-size: 0.85rem;
+    line-height: 1.9;
+    color: var(--warm);
+    max-width: 340px;
+    opacity: 0;
+    animation: fadeUp 1s 0.7s forwards;
+  }
+  .hero-cta {
+    margin-top: 48px;
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    opacity: 0;
+    animation: fadeUp 1s 0.9s forwards;
+  }
+  .btn-primary {
+    display: inline-block;
+    padding: 16px 44px;
+    background: var(--deep);
+    color: var(--cream);
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background 0.4s, transform 0.3s;
+  }
+  .btn-primary:hover {
+    background: var(--rose);
+    transform: translateY(-2px);
+  }
+  .btn-ghost {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--warm);
+    text-decoration: none;
+    border-bottom: 1px solid var(--dusty);
+    padding-bottom: 2px;
+    transition: color 0.3s, border-color 0.3s;
+  }
+  .btn-ghost:hover { color: var(--rose); border-color: var(--rose); }
+
+  .hero-right {
+    background: var(--mist);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-right-inner {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  /* Illustrated dress silhouette using CSS */
+  .dress-silhouette {
+    width: 280px;
+    height: 520px;
+    position: relative;
+    opacity: 0;
+    animation: fadeIn 1.4s 1s forwards;
+  }
+  .dress-silhouette svg {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 30px 60px rgba(42,31,26,0.15));
+  }
+
+  .hero-number {
+    position: absolute;
+    bottom: 50px; right: 50px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 9rem;
+    font-weight: 300;
+    color: var(--dusty);
+    line-height: 1;
+    user-select: none;
+    opacity: 0;
+    animation: fadeIn 1s 1.2s forwards;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 40px; left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    opacity: 0;
+    animation: fadeIn 1s 1.5s forwards;
+  }
+  .scroll-hint span {
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--rose);
+  }
+  .scroll-line {
+    width: 1px;
+    height: 50px;
+    background: linear-gradient(to bottom, var(--rose), transparent);
+    animation: scrollPulse 2s infinite;
+  }
+
+  /* MARQUEE */
+  .marquee-strip {
+    background: var(--deep);
+    color: var(--cream);
+    padding: 14px 0;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .marquee-track {
+    display: inline-block;
+    animation: marquee 20s linear infinite;
+  }
+  .marquee-track span {
+    font-size: 0.65rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    margin: 0 40px;
+    opacity: 0.8;
+  }
+  .marquee-track .dot {
+    color: var(--rose);
+    font-size: 1rem;
+  }
+
+  /* COLLECTIONS */
+  #collections {
+    padding: 120px 60px;
+  }
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 70px;
+  }
+  .section-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--rose);
+    margin-bottom: 14px;
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.5rem, 4vw, 3.8rem);
+    font-weight: 300;
+    line-height: 1.15;
+    color: var(--deep);
+  }
+  .section-title em { font-style: italic; color: var(--rose); }
+  .section-link {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--warm);
+    text-decoration: none;
+    border-bottom: 1px solid var(--dusty);
+    padding-bottom: 2px;
+    transition: color 0.3s;
+    white-space: nowrap;
+  }
+  .section-link:hover { color: var(--rose); }
+.collections-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;   /* 2 columns */
+  gap: 24px;
+}
+
+.card-visual {
+  width: 100%;
+  aspect-ratio: 3 / 4;           /* Balanced height */
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #f8f0eb;
+}
+
+.card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s ease;
+}
+
+.collection-card:hover .card-image {
+  transform: scale(1.07);
+}
+
+/* Mobile - Stack vertically */
+@media (max-width: 768px) {
+  .collections-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+ 
+  /* ABOUT */
+  #about {
+    padding: 120px 60px;
+    background: var(--blush);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 100px;
+    align-items: center;
+  }
+  .about-visual {
+    position: relative;
+  }
+  .about-img-box {
+    width: 100%;
+    aspect-ratio: 3/4;
+    background: linear-gradient(145deg, #dcc8be, #c4a090);
+    position: relative;
+    overflow: hidden;
+  }
+  .about-img-box::after {
+    content: '';
+    position: absolute;
+    inset: 20px;
+    border: 1px solid rgba(255,255,255,0.4);
+  }
+  .about-float {
+    position: absolute;
+    bottom: -30px; right: -30px;
+    width: 160px; height: 200px;
+    background: var(--cream);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 24px;
+    box-shadow: 0 20px 60px rgba(42,31,26,0.1);
+  }
+  .about-float-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3rem;
+    font-weight: 300;
+    color: var(--rose);
+    line-height: 1;
+  }
+  .about-float-text {
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--warm);
+    text-align: center;
+    margin-top: 8px;
+  }
+
+  .about-text .section-label { margin-bottom: 16px; }
+  .about-desc {
+    font-size: 0.9rem;
+    line-height: 2;
+    color: var(--warm);
+    margin-top: 28px;
+  }
+  .about-quote {
+    margin-top: 40px;
+    padding-left: 24px;
+    border-left: 2px solid var(--rose);
+  }
+  .about-quote p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-style: italic;
+    font-weight: 300;
+    color: var(--deep);
+    line-height: 1.6;
+  }
+  .about-stats {
+    display: flex;
+    gap: 40px;
+    margin-top: 50px;
+  }
+  .stat-item {}
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.5rem;
+    font-weight: 300;
+    color: var(--deep);
+  }
+  .stat-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--rose);
+    margin-top: 4px;
+  }
+
+  /* CONTACT */
+  #contact {
+    padding: 120px 60px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 100px;
+    align-items: start;
+  }
+  .contact-left .section-title { margin-bottom: 28px; }
+  .contact-desc {
+    font-size: 0.85rem;
+    line-height: 2;
+    color: var(--warm);
+    max-width: 380px;
+  }
+  .contact-details {
+    margin-top: 48px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  .contact-item-label {
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--rose);
+    margin-bottom: 6px;
+  }
+  .contact-item-val {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    font-weight: 300;
+    color: var(--deep);
+  }
+
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .form-group label {
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--warm);
+  }
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    border: none;
+    border-bottom: 1px solid var(--dusty);
+    background: transparent;
+    padding: 12px 0;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 300;
+    color: var(--deep);
+    outline: none;
+    transition: border-color 0.3s;
+    cursor: none;
+  }
+  .form-group input:focus,
+  .form-group textarea:focus,
+  .form-group select:focus { border-color: var(--rose); }
+  .form-group textarea { resize: none; height: 100px; }
+  .form-group select option { background: var(--cream); }
+  .btn-submit {
+    align-self: flex-start;
+    padding: 16px 50px;
+    background: var(--deep);
+    color: var(--cream);
+    border: none;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    cursor: none;
+    transition: background 0.4s, transform 0.3s;
+    margin-top: 12px;
+  }
+  .btn-submit:hover { background: var(--rose); transform: translateY(-2px); }
+
+  /* FOOTER */
+  footer {
+    background: var(--deep);
+    color: var(--cream);
+    padding: 60px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 40px;
+    align-items: start;
+  }
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.2rem;
+    font-weight: 300;
+    letter-spacing: 0.4em;
+    margin-bottom: 16px;
+  }
+  .footer-tagline {
+    font-size: 0.75rem;
+    line-height: 1.8;
+    opacity: 0.5;
+    max-width: 240px;
+  }
+  .footer-col h4 {
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--rose);
+    margin-bottom: 20px;
+  }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+  .footer-col ul a {
+    font-size: 0.8rem;
+    color: rgba(250,246,242,0.55);
+    text-decoration: none;
+    transition: color 0.3s;
+    letter-spacing: 0.05em;
+  }
+  .footer-col ul a:hover { color: var(--rose); }
+  .footer-bottom {
+    grid-column: 1/-1;
+    border-top: 1px solid rgba(250,246,242,0.1);
+    padding-top: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer-bottom p { font-size: 0.65rem; opacity: 0.35; letter-spacing: 0.1em; }
+  .social-links { display: flex; gap: 20px; }
+  .social-links a {
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(250,246,242,0.4);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  .social-links a:hover { color: var(--rose); }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.4; transform: scaleY(1); }
+    50% { opacity: 1; transform: scaleY(1.1); }
+  }
+
+  /* Reveal on scroll */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.9s ease, transform 0.9s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+
+  /* Decorative petal */
+  .petal {
+    position: absolute;
+    border-radius: 50% 0;
+    opacity: 0.15;
+    animation: rotatePetal 20s linear infinite;
+  }
+  @keyframes rotatePetal { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+  /* Fix for mobile viewport height */
+:root {
+  --vh: 100vh; /* fallback */
+}
+
+@media (max-width: 768px) {
+  :root {
+    --vh: 100dvh; /* Modern dynamic viewport height */
+  }
+
+  html, body {
+    height: 100%;
+    min-height: 100dvh;
+  }
+
+  #hero {
+    min-height: var(--vh);
+    grid-template-columns: 1fr;           /* Stack on mobile */
+  }
+
+  .hero-left {
+    padding: 160px 30px 100px !important;
+  }
+
+  .hero-right {
+    min-height: 45vh;
+  }
+
+  /* Reduce padding on all sections for mobile */
+  #collections, #about, #contact {
+    padding: 90px 24px !important;
+  }
+
+  .nav {
+    padding: 20px 24px;
+  }
+}
+/* === HERO LOGO - UPPER LEFT POSITION === */
+.hero-logo {
+  position: absolute;
+  top: 5%;
+  left: 6%;
+  width: 250px;
+  height: 300px;
+  z-index: 5;
+}
+
+.hero-logo img {
+  width: 200%;
+  height: 400%;
+  filter: brightness(0.92);   /* Makes it look elegant on blush background */
+}
+
+/* Adjust for mobile */
+@media (max-width: 768px) {
+  .hero-logo {
+    width: 250px;
+    top: 14%;
+    left: 6%;
+  }
+}
+.collections-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.card-visual {
+  width: 100%;
+  aspect-ratio: 3 / 4;        /* Makes images look balanced */
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;          /* Full image without distortion */
+  object-position: center;
+  transition: transform 0.7s ease;
+}
+
+.collection-card:hover .card-image {
+  transform: scale(1.08);
+}
+
+.card-info {
+  padding: 16px 4px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Mobile Fix */
+@media (max-width: 768px) {
+  .collections-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  
+  .card-visual {
+    aspect-ratio: 3 / 4;
+    min-height: 420px;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">ADBL</a>
+  <ul class="nav-links">
+    <li><a href="#collections">Collections</a></li>
+    <li><a href="#about">Atelier</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#contact">Bespoke</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <!-- Petals -->
+  <div class="petal" style="width:300px;height:300px;background:var(--rose);top:-80px;left:20%;animation-duration:25s;"></div>
+  <div class="petal" style="width:180px;height:180px;background:var(--gold);bottom:100px;right:10%;animation-duration:18s;animation-direction:reverse;"></div>
+   <div class="hero-left">
+  <!-- Black Logo in Green Area -->
+  <div class="hero-logo">
+    <img src="https://i.postimg.cc/cHfqvMj6/IMG-20260514-WA0015(2).jpg" alt="House of ADBL" />
+  </div>
+   </div>
+
+
+  <div class="hero-left">
+    <div class="hero-eyebrow">SS 2026 — Haute Couture</div>
+    <h1 class="hero-title">Where <em>Elegance</em><br>lives<br></h1>
+    <p class="hero-sub">ADBL is a couture house devoted to the art of feminine dressing — each piece a meditation on grace, crafted by hand in our Parisian-inspired atelier.</p>
+    <div class="hero-cta">
+      <a href="#collections" class="btn-primary">Explore Collection</a>
+      <a href="#about" class="btn-ghost">Our Story</a>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="hero-right-inner">
+      <div class="dress-silhouette">
+        <svg viewBox="0 0 280 520" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Head -->
+          <circle cx="140" cy="40" r="32" fill="#dcc8be" opacity="0.6"/>
+          <!-- Neck -->
+          <rect x="130" y="70" width="20" height="25" rx="5" fill="#dcc8be" opacity="0.5"/>
+          <!-- Bodice -->
+          <path d="M90 95 Q100 88 140 90 Q180 88 190 95 L205 170 Q140 185 75 170 Z" fill="#c9967c" opacity="0.7"/>
+          <!-- Belt/waist detail -->
+          <ellipse cx="140" cy="172" rx="60" ry="10" fill="#b8976a" opacity="0.5"/>
+          <!-- Skirt - full romantic A-line -->
+          <path d="M80 172 Q40 280 20 400 Q60 430 140 440 Q220 430 260 400 Q240 280 200 172 Q165 185 140 185 Q115 185 80 172Z" fill="#e8cfc4" opacity="0.65"/>
+          <!-- Skirt overlay layers -->
+          <path d="M90 200 Q55 300 35 400 Q80 420 140 428 Q200 420 245 400 Q225 300 190 200" fill="#dcc0b0" opacity="0.3"/>
+          <!-- Neckline detail -->
+          <path d="M110 95 Q140 115 170 95" stroke="#b8976a" stroke-width="1.5" fill="none" opacity="0.8"/>
+          <!-- Sleeve left -->
+          <path d="M90 95 Q60 110 50 145 Q75 155 85 140 Q88 115 90 95Z" fill="#c9967c" opacity="0.5"/>
+          <!-- Sleeve right -->
+          <path d="M190 95 Q220 110 230 145 Q205 155 195 140 Q192 115 190 95Z" fill="#c9967c" opacity="0.5"/>
+          <!-- Decorative bow at waist -->
+          <path d="M120 172 Q130 165 140 172 Q150 165 160 172 Q150 180 140 173 Q130 180 120 172Z" fill="#b8976a" opacity="0.8"/>
+          <!-- Skirt hem floral detail -->
+          <ellipse cx="80" cy="410" rx="15" ry="8" fill="#c9967c" opacity="0.2"/>
+          <ellipse cx="200" cy="415" rx="15" ry="8" fill="#c9967c" opacity="0.2"/>
+          <ellipse cx="140" cy="432" rx="18" ry="8" fill="#c9967c" opacity="0.25"/>
+        </svg>
+      </div>
+    </div>
+    <div class="hero-number">01</div>
+  </div>
+
+  <div class="scroll-hint">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-strip">
+  <div class="marquee-track">
+    <span>ADBL Couture</span><span class="dot">✦</span>
+    <span>Bespoke Design</span><span class="dot">✦</span>
+    <span>SS 2026 Collection</span><span class="dot">✦</span>
+    <span>Handcrafted Elegance</span><span class="dot">✦</span>
+    <span>Paris · Milan · New York</span><span class="dot">✦</span>
+    <span>Feminine Excellence</span><span class="dot">✦</span>
+    <span>ADBL Couture</span><span class="dot">✦</span>
+    <span>Bespoke Design</span><span class="dot">✦</span>
+    <span>SS 2026 Collection</span><span class="dot">✦</span>
+    <span>Handcrafted Elegance</span><span class="dot">✦</span>
+    <span>Paris · Milan · New York</span><span class="dot">✦</span>
+    <span>Feminine Excellence</span><span class="dot">✦</span>
+  </div>
+</div>
+
+<!-- COLLECTIONS -->
+<section id="collections">
+  <div class="section-header reveal">
+    <div>
+      <div class="section-label">SS 2026 — Featured</div>
+      <h2 class="section-title">Our <em>Collections</em></h2>
+    </div>
+    <a href="collection.html" class="section-link">View All →</a>
+  </div>
+
+  <div class="collections-grid">
+    <div class="collection-card card-1 reveal">
+      <div class="card-visual">
+          <img src="https://i.postimg.cc/Px28gczj/IMG-20260514-WA0039.jpg" alt="Signature Collection" class="card-image">
+        
+      <div class="card-info">
+        <div>
+          <div class="card-name">Wedding Gown</div>
+          <div class="card-season"><p>Wedding Gown</p></div>
+        </div>
+        <a href="#" class="card-arrow">→</a>
+      </div>
+    </div>
+
+    <div class="collection-card card-2 reveal reveal-delay-1">
+      <div class="card-visual">
+          <img src="https://i.postimg.cc/PxVZ99TP/IMG-20260514-WA0037.jpg" alt="Signature Collection" class="card-image">
+      <div class="card-info">
+        <div>
+          <div class="card-name">Coperate wears</div>
+          <div class="card-season">Bridal</div>
+        </div>
+        <a href="#" class="card-arrow">→</a>
+      </div>
+    </div>
+
+    
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-visual reveal">
+    <div class="about-img-box">
+      <!-- Decorative atelier illustration -->
+      <svg viewBox="0 0 400 530" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+        <rect width="400" height="530" fill="url(#atelierGrad)"/>
+        <defs>
+          <linearGradient id="atelierGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#dcc8be"/>
+            <stop offset="100%" stop-color="#c4a090"/>
+          </linearGradient>
+        </defs>
+        <!-- Mannequin stand -->
+        <rect x="185" y="430" width="30" height="80" rx="4" fill="rgba(42,31,26,0.3)"/>
+        <ellipse cx="200" cy="510" rx="50" ry="12" fill="rgba(42,31,26,0.25)"/>
+        <!-- Dress form body -->
+        <path d="M150 120 Q200 105 250 120 L265 230 Q200 250 135 230Z" fill="rgba(250,246,242,0.55)"/>
+        <path d="M135 230 Q120 320 125 420 Q165 435 200 435 Q235 435 275 420 Q280 320 265 230" fill="rgba(250,246,242,0.5)"/>
+        <ellipse cx="200" cy="231" rx="65" ry="14" fill="rgba(184,151,106,0.35)"/>
+        <!-- Draping fabric lines -->
+        <path d="M145 150 Q170 180 155 220" stroke="rgba(201,150,124,0.5)" stroke-width="1.5" fill="none"/>
+        <path d="M255 150 Q230 180 245 220" stroke="rgba(201,150,124,0.5)" stroke-width="1.5" fill="none"/>
+        <!-- Window light streaks -->
+        <rect x="300" y="0" width="40" height="530" fill="rgba(255,255,255,0.1)" transform="skewX(-5)"/>
+        <rect x="350" y="0" width="20" height="530" fill="rgba(255,255,255,0.06)" transform="skewX(-5)"/>
+        <!-- Floating petals -->
+        <ellipse cx="80" cy="80" rx="20" ry="8" fill="rgba(201,150,124,0.3)" transform="rotate(-30 80 80)"/>
+        <ellipse cx="320" cy="150" rx="15" ry="6" fill="rgba(201,150,124,0.25)" transform="rotate(20 320 150)"/>
+        <ellipse cx="60" cy="300" rx="12" ry="5" fill="rgba(201,150,124,0.2)" transform="rotate(45 60 300)"/>
+      </svg>
+    </div>
+    <div class="about-float">
+      <div class="about-float-num">12</div>
+      <div class="about-float-text">Years of<br>Craftsmanship</div>
+    </div>
+  </div>
+
+  <div class="about-text reveal reveal-delay-1">
+    <div class="section-label">Our Atelier</div>
+    <h2 class="section-title">Born from a<br><em>Love of Beauty</em></h2>
+    <p class="about-desc">ADBL was born from a deep reverence for the feminine form — its grace, its strength, its poetry. We create clothes that don't merely dress a woman, but tell her story.</p>
+    <p class="about-desc" style="margin-top:16px;">Every seam is hand-stitched, every fabric sourced from the finest mills in France and Italy. We believe fashion is not just clothing — it is identity, it is feeling, it is art.</p>
+    <div class="about-quote">
+      <p>"To wear ADBL is to wear a feeling — quiet confidence wrapped in silk."</p>
+    </div>
+    <div class="about-stats">
+      <div class="stat-item">
+        <div class="stat-num">340+</div>
+        <div class="stat-label">Bespoke Pieces</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">18</div>
+        <div class="stat-label">Collections</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">10+</div>
+        <div class="stat-label">Countries</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-left reveal">
+    <div class="section-label">Get in Touch</div>
+    <h2 class="section-title">Begin Your<br><em>Journey</em></h2>
+    <p class="contact-desc">Whether you're looking for a bespoke creation for your special occasion, or seeking to carry ADBL in your boutique, we'd love to hear from you.</p>
+    <div class="contact-details">
+      <div>
+        <div class="contact-item-label">Atelier</div>
+        <div class="contact-item-val">Nigeria & International</div>
+      </div>
+      <div>
+        <div class="contact-item-label">Email</div>
+        <div class="contact-item-val"> adebolarofiat2019@gmail.com</div>
+      </div>
+      <div>
+        <div class="contact-item-label">Appointments</div>
+        <div class="contact-item-val">By Private Arrangement</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="contact-form reveal reveal-delay-1">
+    <div class="form-row">
+      <div class="form-group">
+        <label>First Name</label>
+        <input type="text" placeholder="Annabe">
+      </div>
+      <div class="form-group">
+        <label>Last Name</label>
+        <input type="text" placeholder="Moreau">
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Email Address</label>
+      <input type="email" placeholder="hello@email.com">
+    </div>
+    <div class="form-group">
+      <label>Enquiry Type</label>
+      <select>
+        <option value="">Select a reason...</option>
+        <option>Bespoke Commission</option>
+        <option>Ready to Wear</option>
+        <option>Bridal Couture</option>
+        <option>Press & Media</option>
+        <option>Wholesale</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Your Message</label>
+      <textarea placeholder="Tell us about your vision..."></textarea>
+    </div>
+    <button class="btn-submit">Send Message</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-logo">ADBL</div>
+    <p class="footer-tagline">Couture born from elegance, crafted with devotion.</p>
+  </div>
+  <div class="footer-col">
+    <h4>Navigate</h4>
+    <ul>
+      <li><a href="#collections">Collections</a></li>
+      <li><a href="#about">Our Atelier</a></li>
+      <li><a href="#contact">Bespoke</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+  <div class="footer-col">
+    <h4>Services</h4>
+    <ul>
+      <li><a href="#">Private Appointments</a></li>
+      <li><a href="#">Bridal Couture</a></li>
+      <li><a href="#">Evening Wear</a></li>
+      <li><a href="#">Ready to Wear</a></li>
+    </ul>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 ADBL Couture. All rights reserved.</p>
+    <div class="social-links">
+      <a href="https://www.instagram.com/houseofadbl/" target="_blank">Instagram</a>
+      <a href="https://tiktok.com/@houseofadbl" target="_blank" rel="noreferrer">Tiktok</a>
+      <a href="https://wa.me/2348118146132" target="_blank">Whatsapp</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.transform = `translate(${mx - 4}px, ${my - 4}px)`;
+  });
+
+  function animRing() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.transform = `translate(${rx - 18}px, ${ry - 18}px)`;
+    requestAnimationFrame(animRing);
+  }
+  animRing();
+
+  // Hover effects on interactive elements
+  document.querySelectorAll('a, button, input, select, textarea, .collection-card').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      ring.style.width = '60px';
+      ring.style.height = '60px';
+      ring.style.borderColor = 'var(--gold)';
+    });
+    el.addEventListener('mouseleave', () => {
+      ring.style.width = '36px';
+      ring.style.height = '36px';
+      ring.style.borderColor = 'var(--rose)';
+    });
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(r => observer.observe(r));
+
+  // Nav scroll behavior
+  const nav = document.querySelector('nav');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 80) {
+      nav.style.background = 'rgba(242,224,216,0.9)';
+      nav.style.backdropFilter = 'blur(12px)';
+      nav.style.boxShadow = '0 1px 30px rgba(42,31,26,0.06)';
+      nav.style.padding = '18px 60px';
+    } else {
+      nav.style.background = 'transparent';
+      nav.style.backdropFilter = 'none';
+      nav.style.boxShadow = 'none';
+      nav.style.padding = '28px 60px';
+    }
+  });
+</script>
+</body>
+</html>

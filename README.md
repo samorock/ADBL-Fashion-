@@ -1,2 +1,2 @@
-# ADBL-Fashion-
+# adbl-fashion
 Frontend Website for ADBL ClOTHING
